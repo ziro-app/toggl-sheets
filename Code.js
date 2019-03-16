@@ -5,8 +5,13 @@ var options = {'headers': {'Authorization': 'Basic ' + Utilities.base64Encode(to
 
 function TOGGLREPORT() {
  	var projects = JSON.parse(UrlFetchApp.fetch(url, options).getContentText()).data
- 	var titleAndTime = projects.map(function(project) {
- 		return [ project.title.project, project.time]
+ 	var ordersTitlesAndTimes = projects.map(function(project) {
+ 		var order = project.title.project.split(" | ")[0]
+ 		var title = project.title.project.split(" | ")[1]
+ 		var time = project.time / (1000*3600*24)
+ 		return [ order, title, time ]
  	})
- 	return titleAndTime
+ 	return ordersTitlesAndTimes.sort(function(a, b) {
+ 		return a[0] - b[0]
+ 	})
 }
