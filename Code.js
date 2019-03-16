@@ -3,8 +3,8 @@ var url = PropertiesService.getScriptProperties().getProperty('TOGGL_URL')
 var options = {'headers': {'Authorization': 'Basic ' + Utilities.base64Encode(token + ':api_token')}}
 
 
-function TOGGLREPORT() {
- 	var projects = JSON.parse(UrlFetchApp.fetch(url, options).getContentText()).data
+function TOGGLREPORT(workspace) {
+ 	var projects = JSON.parse(UrlFetchApp.fetch(url + workspace, options).getContentText()).data
  	var ordersTitlesAndTimes = projects.map(function(project) {
  		var order = project.title.project.split(" | ")[0]
  		var title = project.title.project.split(" | ")[1]
